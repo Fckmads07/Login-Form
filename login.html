@@ -3,36 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <div class="icon">
-    <link rel="icon" type="image/x-icon" href="./f052cd579d8b5ca4e821aeb3b3cf273e.jpg" >
-    </div>
+    <link rel="icon" type="image/x-icon" href="./f052cd579d8b5ca4e821aeb3b3cf273e.jpg">
     <link rel="stylesheet" href="login.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Login</title>
+    <script src="auth.js"></script>
+    <script>
+        // Déjà connecté (session gardée en mémoire) : on va directement à l'accueil
+        if (getSession()) location.replace('home.html');
+    </script>
 </head>
 <body>
     <div class="wrapper">
-        <form actions="">
+        <form id="login-form" novalidate>
             <h1>Login</h1>
+            <p id="message" class="message" role="alert"></p>
             <div class="input-group">
-                <input type ="text" placeholder="Username" required>
-                <i class='user'></i>
+                <input type="text" id="username" placeholder="Username" autocomplete="username" required>
+                <i class='bx bxs-user'></i>
             </div>
             <div class="input-group">
-                <input type ="password" placeholder="Password" required>
-                <i class='lock'></i>
+                <input type="password" id="password" placeholder="Password" autocomplete="current-password" required>
+                <i class='bx bxs-lock-alt'></i>
             </div>
             <div class="remember">
-                <label><input type="checkbox">Remember Me</label>
+                <label><input type="checkbox" id="remember" checked>Remember Me</label>
                 <a href="#">Forgot Password?</a>
             </div>
             <button type="submit" class="btn">Login</button>
 
             <div class="register-link">
-                <p>Don't have an account? <a href="#">Register here</a></p>
-            </div> 
+                <p>Don't have an account? <a href="register.html">Register here</a></p>
+            </div>
         </form>
-
     </div>
+
+    <script>
+        const form = document.getElementById('login-form');
+        const message = document.getElementById('message');
+        const usernameInput = document.getElementById('username');
+
+        usernameInput.value = getLastUsername();
+
+        const params = new URLSearchParams(location.search);
+        if (params.get('loggedout')) showMessage(message, 'You have been logged out.', 'success');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = usernameInput.value.trim();
+            const password = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+
+            if (!username || !password) {
+                showMessage(message, 'Please fill in all fields.', 'error');
+                return;
+            }
+
+            const result = await loginUser(username, password, remember);
+            if (result.ok) {
+                location.replace('home.html');
+            } else {
+                showMessage(message, result.error, 'error');
+            }
+        });
+    </script>
 </body>
 </html>

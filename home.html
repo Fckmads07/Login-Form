@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./f052cd579d8b5ca4e821aeb3b3cf273e.jpg">
+    <link rel="stylesheet" href="login.css">
+    <title>Home</title>
+    <script src="auth.js"></script>
+    <script>
+        // Pas connecté : retour à la page de login
+        if (!getSession()) location.replace('login.html');
+    </script>
+</head>
+<body>
+    <div class="wrapper home">
+        <h1>Welcome, <span id="username"></span>!</h1>
+        <p class="home-text">You are logged in. Next time you come back, you will be logged in automatically.</p>
+        <button type="button" id="logout" class="btn">Logout</button>
+    </div>
+
+    <script>
+        const session = getSession();
+        if (session) document.getElementById('username').textContent = session.username;
+
+        document.getElementById('logout').addEventListener('click', () => {
+            clearSession();
+            location.replace('login.html?loggedout=1');
+        });
+    </script>
+</body>
+</html>

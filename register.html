@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./f052cd579d8b5ca4e821aeb3b3cf273e.jpg">
+    <link rel="stylesheet" href="login.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Register</title>
+    <script src="auth.js"></script>
+    <script>
+        if (getSession()) location.replace('home.html');
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <form id="register-form" novalidate>
+            <h1>Register</h1>
+            <p id="message" class="message" role="alert"></p>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Username" autocomplete="username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" autocomplete="email" required>
+                <i class='bx bxs-envelope'></i>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" autocomplete="new-password" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="input-group">
+                <input type="password" id="confirm" placeholder="Confirm password" autocomplete="new-password" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="remember">
+                <label><input type="checkbox" id="remember" checked>Remember Me</label>
+            </div>
+            <button type="submit" class="btn">Register</button>
+
+            <div class="register-link">
+                <p>Already have an account? <a href="login.html">Login here</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('register-form');
+        const message = document.getElementById('message');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm').value;
+            const remember = document.getElementById('remember').checked;
+
+            if (!username || !email || !password || !confirm) {
+                showMessage(message, 'Please fill in all fields.', 'error');
+                return;
+            }
+            if (!document.getElementById('email').checkValidity()) {
+                showMessage(message, 'Please enter a valid email.', 'error');
+                return;
+            }
+            if (password.length < 6) {
+                showMessage(message, 'Password must be at least 6 characters.', 'error');
+                return;
+            }
+            if (password !== confirm) {
+                showMessage(message, 'Passwords do not match.', 'error');
+                return;
+            }
+
+            const result = await registerUser(username, email, password);
+            if (!result.ok) {
+                showMessage(message, result.error, 'error');
+                return;
+            }
+            // Compte créé : on connecte l'utilisateur directement
+            startSession(username, remember);
+            location.replace('home.html');
+        });
+    </script>
+</body>
+</html>
