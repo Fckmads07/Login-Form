@@ -1,107 +1,155 @@
-*{
+:root {
+    --text: #fff;
+    --border: rgba(255, 255, 255, 0.2);
+    --border-focus: rgba(255, 255, 255, 0.6);
+    --card-bg: rgba(0, 0, 0, 0.25);
+    --error: 220, 53, 69;
+    --success: 40, 167, 69;
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
 }
-icon{
-    border-radius: 15px;
-}
-body{
+
+body {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    /*background color:red;*/
-    background: url('f052cd579d8b5ca4e821aeb3b3cf273e.jpg') no-repeat ;
-    background-size: cover;
-    background-position: center;
+    padding: 16px;
+    background: url('background.jpg') center / cover no-repeat;
 }
-.wrapper{
-   width:420px;
-   background: transparent;
-   color:white;
-    border-radius: 10px;
-    padding:30px 40px;
+
+/* Carte */
+.wrapper {
+    width: 420px;
+    max-width: 100%;
+    padding: 30px 40px;
+    color: var(--text);
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
 }
-.wrapper h1{
-    font-size: 24px;
-    font-weight: 500;
+
+.wrapper h1 {
+    font-size: 28px;
+    font-weight: 600;
     text-align: center;
     margin-bottom: 25px;
 }
-.wrapper .input-group{
+
+/* Champs */
+.input-group {
     position: relative;
-    margin:10px 0;
-    width:100%;
-    height:50px;
-    margin :30px 0;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
 }
-.input-group input{
-    width:100%;
-    height:100%;
-    background: transparent;
-    border:none;
-    outline:none;
-    border:2px solid rgb(255, 255, 255,0.2);
-    border-radius: 16px;
+
+.input-group input {
+    width: 100%;
+    height: 100%;
+    padding: 0 45px 0 20px;
     font-size: 16px;
-    color:white;
-    padding:20px 45px 20px 20px;
+    color: var(--text);
+    background: transparent;
+    border: 2px solid var(--border);
+    border-radius: 40px;
+    outline: none;
+    transition: border-color 0.2s;
 }
-.input-group input::placeholder{
-    color: white;
+
+.input-group input:focus {
+    border-color: var(--border-focus);
 }
-.input-group i{
+
+.input-group input::placeholder {
+    color: var(--text);
+}
+
+.input-group i {
     position: absolute;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
     font-size: 20px;
-
 }
-.wrapper .remember{
+
+/* Remember Me / Forgot Password */
+.remember {
     display: flex;
     justify-content: space-between;
-    font-size:14.5px;
+    align-items: center;
+    font-size: 14.5px;
     margin: -15px 0 15px;
 }
-.wrapper .remember label input{
-    accent-color: white;
-    margin-right: 3px;
-}
-.remember a {
-    color: white;
-    text-decoration: none;
-}
-.wrapper .btn{
-    width:100%;
-    height:45px;
-    background: white;
-    border:none;
-    outline:none;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgb(0,0,0,0.1);
+
+.remember label {
     cursor: pointer;
-    font-size: 16px;
-    color:#333;
-    font-weight: 600;
 }
-.wrapper .register-link{
-    font-size:14.5px;
-    text-align: center;
-    margin-top: 20px 0 15px;
+
+.remember input {
+    accent-color: var(--text);
+    margin-right: 4px;
 }
-.register-link p a{
-    color: white;
+
+.remember a {
+    color: var(--text);
     text-decoration: none;
-    font-weight: 600;
 }
-.register-link p a:hover{
+
+.remember a:hover {
     text-decoration: underline;
 }
+
+/* Bouton */
+.btn {
+    width: 100%;
+    height: 45px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    background: #fff;
+    border: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+    background: #e6e6e6;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* Lien bas de page */
+.register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.register-link a {
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
 /* Messages d'erreur / de succès */
-.message{
+.message {
     display: none;
     font-size: 14px;
     text-align: center;
@@ -109,29 +157,31 @@ body{
     border-radius: 10px;
     margin-bottom: -10px;
 }
-.message.error{
+
+.message.error {
     display: block;
-    background: rgba(220, 53, 69, 0.35);
-    border: 1px solid rgba(220, 53, 69, 0.8);
+    background: rgba(var(--error), 0.35);
+    border: 1px solid rgba(var(--error), 0.8);
 }
-.message.success{
+
+.message.success {
     display: block;
-    background: rgba(40, 167, 69, 0.35);
-    border: 1px solid rgba(40, 167, 69, 0.8);
+    background: rgba(var(--success), 0.35);
+    border: 1px solid rgba(var(--success), 0.8);
 }
 
 /* Page d'accueil */
-.wrapper.home{
+.wrapper.home {
     text-align: center;
 }
-.home-text{
+
+.home-text {
     margin-bottom: 25px;
     font-size: 15px;
 }
 
-@media (max-width: 480px){
-    .wrapper{
-        width: 100%;
-        padding: 30px 16px;
+@media (max-width: 480px) {
+    .wrapper {
+        padding: 30px 20px;
     }
 }
