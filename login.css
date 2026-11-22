@@ -29,7 +29,8 @@ body::before {
     position: fixed;
     inset: 0;
     z-index: -1;
-    background: url('background.jpg') center / cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
+        url('city-night.jpg') center / cover no-repeat;
 }
 
 /* Carte */
@@ -193,4 +194,17 @@ body::before {
     .wrapper {
         padding: 30px 20px;
     }
+}
+
+/* Crédit photo */
+.photo-credit {
+    position: fixed;
+    right: 12px;
+    bottom: 8px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.photo-credit a {
+    color: inherit;
 }
